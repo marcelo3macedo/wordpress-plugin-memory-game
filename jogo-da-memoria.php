@@ -7,8 +7,16 @@ Author: Marcelo Macedo
 */
 
 function jogo_memoria_enqueue_assets() {
-    wp_enqueue_style('jogo-memoria-style', plugins_url('css/style.css', __FILE__));
-    wp_enqueue_script('jogo-memoria-script', plugins_url('js/script.js', __FILE__), [], null, true);
+    if ( ! is_singular() ) {
+        return;
+    }
+
+    global $post;
+
+    if (has_shortcode( $post->post_content, 'jogo-da-memoria' )) {
+        wp_enqueue_style('jogo-memoria-style', plugins_url('css/style.css', __FILE__));
+        wp_enqueue_script('jogo-memoria-script', plugins_url('js/script.js', __FILE__), [], null, true);
+    }
 }
 add_action('wp_enqueue_scripts', 'jogo_memoria_enqueue_assets');
 
